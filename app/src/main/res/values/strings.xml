@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">ExamenParte1</string>
+    <string name="loading">Loading...</string>
+    <string name="logo">Logo</string>
+
+
+    <string-array name="docs_array">
+        <item>Tipo de documento</item>
+        <item>DNI</item>
+        <item>Libreta civica</item>
+        <item>Libreta enrrolamiento</item>
+        <item>Cedula</item>
+        <item>Pasaporte</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="text_instruction">Para acceder a tus beneficios ingresa tu numero de documento</string>
+    <string name="n_de_documento">Nº de Documento</string>
+    <string name="recordar_n">Recordar Nº</string>
+    <string name="abrir_app">Abrir app</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="cross">cross</string>
+    <string name="nroDocEx">40278788</string>
+    <string name="registrate_para_continuar">Registrate para continuar</string>
+    <string name="email">Email</string>
+    <string name="telefono">Telefono</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="terms">He leido y acepto los terminos y condiciones</string>
+    <string name="volver_a_login">Volver a login</string>
+</resources>
