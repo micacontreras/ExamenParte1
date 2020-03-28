@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.example.examenparte1.R
-import com.example.examenparte1.main.MainActivity
+import com.example.examenparte1.MainActivity
 
 
 class SplashActivity : AppCompatActivity() {

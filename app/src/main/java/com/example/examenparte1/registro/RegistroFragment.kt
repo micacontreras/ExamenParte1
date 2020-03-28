@@ -1,7 +1,7 @@
 package com.example.examenparte1.registro
 
 
-import android.content.Intent
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
@@ -13,11 +13,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.examenparte1.*
-import com.example.examenparte1.invalidCreds.inCredsActivity
-import com.example.examenparte1.main.MainActivity
-import com.example.examenparte1.terms.TermsActivity
+import com.example.examenparte1.Navigation
+import com.example.examenparte1.R
+import com.example.examenparte1.invalidCreds.inCredsFragment
+import com.example.examenparte1.main.MainFragment
+import com.example.examenparte1.showDialog
+import com.example.examenparte1.terms.TermsFragment
 import kotlinx.android.synthetic.main.fragment_registro.*
+
+
 
 
 /**
@@ -25,6 +29,20 @@ import kotlinx.android.synthetic.main.fragment_registro.*
  */
 class RegistroFragment : Fragment() {
 
+    var callback: Navigation? = null
+
+    companion object {
+        @JvmStatic
+        fun newInstance(datos: Bundle?): RegistroFragment {
+            return RegistroFragment().apply {
+                arguments = Bundle().also {
+                    if (datos != null) {
+                        it.putBundle("Datos", datos)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,8 +57,7 @@ class RegistroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         cross.setOnClickListener(View.OnClickListener {
-            val intent = Intent(activity, MainActivity::class.java)
-            startActivity(intent)
+            callback?.navigateToFragment(MainFragment.toString(), null )
         })
         btn_aceptar.setOnClickListener(View.OnClickListener {
             if (et_dni.text.isNullOrEmpty() || et_email.text.isNullOrEmpty() || et_telefono.text.isNullOrEmpty()) {
@@ -51,33 +68,23 @@ class RegistroFragment : Fragment() {
                     "Ok"
                 )
             } else {
-                registerUser()
-                val intent = Intent(activity, inCredsActivity::class.java)
-                startActivity(intent)
+                val datos= registerUser()
+                callback?.navigateToFragment(inCredsFragment.toString(), datos)
             }
         })
-        checkStatusTerms()
         goToTerms()
         seeCreds()
     }
 
 
     private fun seeCreds() {
-        if (documento != 0) {
-            et_dni?.setText(documento.toString())
-        }
-        if (!email.isNullOrEmpty()) {
-            et_email?.setText(email)
-        }
-        if (telefono != 0) {
-            et_telefono?.setText(telefono.toString())
-        }
-    }
-
-
-    private fun checkStatusTerms() {
-        if (statusTerms) {
-            checkBox.isChecked = true
+        if (arguments?.getBundle("Datos") != null) {
+            et_dni?.setText(arguments!!.getBundle("Datos")!!.getInt("DNI").toString())
+            et_email?.setText(arguments!!.getBundle("Datos")!!.getString("EMAIL"))
+            et_telefono?.setText(arguments!!.getBundle("Datos")!!.getInt("TELEFONO").toString())
+            if(arguments!!.getBundle("Datos")!!.getBoolean("TERMS")){
+                checkBox.isChecked= true
+            }
         }
     }
 
@@ -90,8 +97,8 @@ class RegistroFragment : Fragment() {
 
             val clickableSpan = object : ClickableSpan() {
                 override fun onClick(textView: View) {
-                    registerUser()
-                    startActivity(Intent(activity, TermsActivity::class.java))
+                    var bundleDatos= registerUser()
+                    callback?.navigateToFragment(TermsFragment.toString(), bundleDatos)
                 }
             }
             ss.setSpan(clickableSpan, 22, 44, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -101,17 +108,28 @@ class RegistroFragment : Fragment() {
         }
     }
 
-    fun registerUser() {
+    fun registerUser():Bundle? {
         if (!et_dni.text.isNullOrEmpty() || !et_email.text.isNullOrEmpty() || !et_telefono.text.isNullOrEmpty()) {
-            saveUser(
-                et_dni.text.toString().toInt(),
-                et_email.text.toString(),
-                et_telefono.text.toString().toInt()
-            )
-            if (!checkBox.isChecked) {
-                btn_aceptar.isEnabled = false
-            }
+            val arguments = Bundle()
+            arguments.putInt("DNI", et_dni.text.toString().toInt())
+            arguments.putString("EMAIL", et_email.text.toString())
+            arguments.putInt("TELEFONO", et_telefono.text.toString().toInt())
+            arguments.putBoolean("TERMS", checkBox.isChecked)
+            return arguments
         }
-
+        else{
+            return null
+        }
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = context as? Navigation
+    }
+
+    override fun onDetach() {
+        callback = null
+        super.onDetach()
+    }
+
 }

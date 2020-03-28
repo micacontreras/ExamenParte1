@@ -2,7 +2,7 @@ package com.example.examenparte1.terms
 
 
 import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.text.Spanned
@@ -11,9 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
+import com.example.examenparte1.Navigation
 import com.example.examenparte1.R
-import com.example.examenparte1.registro.RegistroActivity
-import com.example.examenparte1.statusTerms
+import com.example.examenparte1.registro.RegistroFragment
 import kotlinx.android.synthetic.main.fragment_terms.*
 
 
@@ -21,6 +21,21 @@ import kotlinx.android.synthetic.main.fragment_terms.*
  * A simple [Fragment] subclass.
  */
 class TermsFragment : Fragment() {
+
+    var callback: Navigation? = null
+
+    companion object {
+        @JvmStatic
+        fun newInstance(datos: Bundle?): TermsFragment {
+            return TermsFragment().apply {
+                arguments = Bundle().also {
+                    if (datos != null) {
+                        it.putBundle("Datos", datos)
+                    }
+                }
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,9 +49,12 @@ class TermsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         changeText()
         cross_terms.setOnClickListener(View.OnClickListener {
-            statusTerms = true
-            val intent = Intent(activity, RegistroActivity::class.java)
-            startActivity(intent)
+            val datosARegistro = Bundle()
+            datosARegistro.putInt("DNI", arguments!!.getBundle("Datos")!!.getInt("DNI"))
+            datosARegistro.putString("EMAIL", arguments!!.getBundle("Datos")!!.getString("EMAIL"))
+            datosARegistro.putInt("TELEFONO", arguments!!.getBundle("Datos")!!.getInt("TELEFONO"))
+            datosARegistro.putBoolean("TERMS", true)
+            callback?.navigateToFragment(RegistroFragment.toString(), datosARegistro)
         })
     }
 
@@ -65,9 +83,13 @@ class TermsFragment : Fragment() {
         tv_terms.text = styledText
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = context as? Navigation
+    }
 
-    fun newInstance(): TermsFragment {
-        val fragment = TermsFragment()
-        return fragment
+    override fun onDetach() {
+        callback = null
+        super.onDetach()
     }
 }
