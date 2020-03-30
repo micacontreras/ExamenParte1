@@ -15,13 +15,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.examenparte1.Navigation
 import com.example.examenparte1.R
-import com.example.examenparte1.invalidCreds.inCredsFragment
-import com.example.examenparte1.main.MainFragment
+import com.example.examenparte1.invalidCredentials.InvalidCredentialsFragment
 import com.example.examenparte1.showDialog
+import com.example.examenparte1.singOn.SignOnFragment
 import com.example.examenparte1.terms.TermsFragment
 import kotlinx.android.synthetic.main.fragment_registro.*
-
-
 
 
 /**
@@ -57,8 +55,9 @@ class RegistroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         cross.setOnClickListener(View.OnClickListener {
-            callback?.navigateToFragment(MainFragment.toString(), null )
+            callback?.navigateToFragment(SignOnFragment.toString(), null)
         })
+
         btn_aceptar.setOnClickListener(View.OnClickListener {
             if (et_dni.text.isNullOrEmpty() || et_email.text.isNullOrEmpty() || et_telefono.text.isNullOrEmpty()) {
                 showDialog(
@@ -68,24 +67,12 @@ class RegistroFragment : Fragment() {
                     "Ok"
                 )
             } else {
-                val datos= registerUser()
-                callback?.navigateToFragment(inCredsFragment.toString(), datos)
+                var datosBundle= Bundle()
+                datosBundle.putString("DNI",et_dni.text.toString())
+                callback?.navigateToFragment(InvalidCredentialsFragment.toString(), datosBundle)
             }
         })
         goToTerms()
-        seeCreds()
-    }
-
-
-    private fun seeCreds() {
-        if (arguments?.getBundle("Datos") != null) {
-            et_dni?.setText(arguments!!.getBundle("Datos")!!.getInt("DNI").toString())
-            et_email?.setText(arguments!!.getBundle("Datos")!!.getString("EMAIL"))
-            et_telefono?.setText(arguments!!.getBundle("Datos")!!.getInt("TELEFONO").toString())
-            if(arguments!!.getBundle("Datos")!!.getBoolean("TERMS")){
-                checkBox.isChecked= true
-            }
-        }
     }
 
     fun goToTerms() {
@@ -97,8 +84,8 @@ class RegistroFragment : Fragment() {
 
             val clickableSpan = object : ClickableSpan() {
                 override fun onClick(textView: View) {
-                    var bundleDatos= registerUser()
-                    callback?.navigateToFragment(TermsFragment.toString(), bundleDatos)
+                    checkBox.isChecked = true
+                    callback?.navigateToFragment(TermsFragment.toString(), null)
                 }
             }
             ss.setSpan(clickableSpan, 22, 44, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
@@ -108,28 +95,8 @@ class RegistroFragment : Fragment() {
         }
     }
 
-    fun registerUser():Bundle? {
-        if (!et_dni.text.isNullOrEmpty() || !et_email.text.isNullOrEmpty() || !et_telefono.text.isNullOrEmpty()) {
-            val arguments = Bundle()
-            arguments.putInt("DNI", et_dni.text.toString().toInt())
-            arguments.putString("EMAIL", et_email.text.toString())
-            arguments.putInt("TELEFONO", et_telefono.text.toString().toInt())
-            arguments.putBoolean("TERMS", checkBox.isChecked)
-            return arguments
-        }
-        else{
-            return null
-        }
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = context as? Navigation
     }
-
-    override fun onDetach() {
-        callback = null
-        super.onDetach()
-    }
-
 }

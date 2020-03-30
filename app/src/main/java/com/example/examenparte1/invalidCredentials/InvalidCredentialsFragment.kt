@@ -1,4 +1,4 @@
-package com.example.examenparte1.invalidCreds
+package com.example.examenparte1.invalidCredentials
 
 
 import android.content.Context
@@ -6,25 +6,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.examenparte1.Navigation
 import com.example.examenparte1.R
-import com.example.examenparte1.main.MainFragment
 import com.example.examenparte1.showDialog
+import com.example.examenparte1.singOn.SignOnFragment
 import kotlinx.android.synthetic.main.fragment_in_creds.*
 
 /**
  * A simple [Fragment] subclass.
  */
-class inCredsFragment : Fragment() {
+class InvalidCredentialsFragment : Fragment() {
 
     var callback: Navigation? = null
 
     companion object {
         @JvmStatic
-        fun newInstance(datos: Bundle?): inCredsFragment {
-            return inCredsFragment().apply {
+        fun newInstance(datos: Bundle?): InvalidCredentialsFragment {
+            return InvalidCredentialsFragment().apply {
                 arguments = Bundle().also {
                     if (datos != null) {
                         it.putBundle("Datos", datos)
@@ -47,9 +46,11 @@ class inCredsFragment : Fragment() {
         showDialog(context, "Rimac seguros", "No recuerdo que mas decia", "Ok")
 
         bt_volver.setOnClickListener(View.OnClickListener {
-            if(arguments!!.getBundle("Datos") !=null){
-                Toast.makeText(context, "Funciona?", Toast.LENGTH_SHORT).show()
-                callback?.navigateToFragment(MainFragment.toString(), arguments!!.getBundle("Datos"))
+            if (arguments!!.getBundle("Datos") != null) {
+                callback?.navigateToFragment(
+                    SignOnFragment.toString(),
+                    arguments!!.getBundle("Datos")
+                )
             }
         })
     }
@@ -58,10 +59,4 @@ class inCredsFragment : Fragment() {
         super.onAttach(context)
         callback = context as? Navigation
     }
-
-    override fun onDetach() {
-        callback = null
-        super.onDetach()
-    }
-
 }

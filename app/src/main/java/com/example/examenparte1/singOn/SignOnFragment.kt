@@ -1,4 +1,4 @@
-package com.example.examenparte1.main
+package com.example.examenparte1.singOn
 
 import android.content.Context
 import android.os.Bundle
@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.examenparte1.Navigation
 import com.example.examenparte1.R
-import com.example.examenparte1.invalidCreds.inCredsFragment
+import com.example.examenparte1.invalidCredentials.InvalidCredentialsFragment
 import com.example.examenparte1.registro.RegistroFragment
 import com.example.examenparte1.showDialog
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -17,14 +17,14 @@ import kotlinx.android.synthetic.main.fragment_main.*
 /**
  * A simple [Fragment] subclass.
  */
-class MainFragment : Fragment() {
+class SignOnFragment : Fragment() {
 
     var callback: Navigation? = null
 
     companion object {
         @JvmStatic
-        fun newInstance(datos: Bundle?): MainFragment {
-            return MainFragment().apply {
+        fun newInstance(datos: Bundle?): SignOnFragment {
+            return SignOnFragment().apply {
                 arguments = Bundle().also {
                     if (datos != null) {
                         it.putBundle("Datos", datos)
@@ -50,16 +50,29 @@ class MainFragment : Fragment() {
         })
         bt_abrirApp.setOnClickListener(View.OnClickListener {
             if (!et_docNro.text.isNullOrEmpty()) {
-                if(arguments!!.getBundle("Datos") !=null){
-                    var bundleDNI = Bundle()
-                        bundleDNI.putInt(("DNI"), arguments!!.getBundle("Datos")!!.getInt("DNI"))
-                    callback?.navigateToFragment(inCredsFragment.toString(), bundleDNI)
+                if (arguments!!.getBundle("Datos") != null) {
+                    if (!et_docNro.text.toString().equals(
+                            arguments!!.getBundle("Datos")!!.getString(
+                                "DNI"
+                            )
+                        )
+                    ) {
+                        var nuevoDNI = Bundle()
+                        nuevoDNI.putString("DNI", et_docNro.text.toString())
+                        callback?.navigateToFragment(
+                            InvalidCredentialsFragment.toString(),
+                            nuevoDNI
+                        )
+                    }
+                    else{
+                        callback?.navigateToFragment(InvalidCredentialsFragment.toString(), arguments!!.getBundle("Datos"))
+                    }
+                } else {
+                    var nuevoDNI = Bundle()
+                    nuevoDNI.putString("DNI", et_docNro.text.toString())
+                    callback?.navigateToFragment(InvalidCredentialsFragment.toString(), nuevoDNI)
                 }
-                else{
-                    var bundleDNI = Bundle()
-                    bundleDNI.putInt(("DNI"), et_docNro.text.toString().toInt())
-                    callback?.navigateToFragment(inCredsFragment.toString(), bundleDNI)
-                }
+
             } else {
                 showDialog(
                     context,
@@ -73,8 +86,8 @@ class MainFragment : Fragment() {
     }
 
     fun checkCreds() {
-        if (arguments!!.getBundle("Datos")!= null) {
-            et_docNro?.setText(arguments!!.getBundle("Datos")!!.getInt("DNI").toString())
+        if (arguments!!.getBundle("Datos") != null) {
+            et_docNro?.setText(arguments!!.getBundle("Datos")!!.getString("DNI"))
         }
     }
 
@@ -83,8 +96,4 @@ class MainFragment : Fragment() {
         callback = context as? Navigation
     }
 
-    override fun onDetach() {
-        callback = null
-        super.onDetach()
-    }
 }

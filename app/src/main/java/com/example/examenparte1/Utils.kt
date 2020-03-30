@@ -3,8 +3,6 @@ package com.example.examenparte1
 import android.content.Context
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 
 fun showDialog(context: Context?, title: String, message: String, positiveButton: String) {
     val builder = AlertDialog.Builder(context!!)

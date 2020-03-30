@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".invalidCreds.inCredsActivity"
+            android:name=".invalidCredentials.inCredsActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".registro.RegistroActivity"

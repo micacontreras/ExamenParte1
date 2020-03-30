@@ -49,12 +49,7 @@ class TermsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         changeText()
         cross_terms.setOnClickListener(View.OnClickListener {
-            val datosARegistro = Bundle()
-            datosARegistro.putInt("DNI", arguments!!.getBundle("Datos")!!.getInt("DNI"))
-            datosARegistro.putString("EMAIL", arguments!!.getBundle("Datos")!!.getString("EMAIL"))
-            datosARegistro.putInt("TELEFONO", arguments!!.getBundle("Datos")!!.getInt("TELEFONO"))
-            datosARegistro.putBoolean("TERMS", true)
-            callback?.navigateToFragment(RegistroFragment.toString(), datosARegistro)
+            callback?.navigateToFragment(RegistroFragment.toString(), null)
         })
     }
 
