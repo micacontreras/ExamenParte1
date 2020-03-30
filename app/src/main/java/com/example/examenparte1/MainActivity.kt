@@ -31,20 +31,14 @@ class MainActivity : AppCompatActivity(), Navigation {
         when {
             destiny.equals(SignOnFragment.toString()) -> {
                 val fragment = supportFragmentManager.findFragmentByTag("SignOn")
-                if (fragment == null || info != null) {
-                    if (info != null) {
-                        fragMain = SignOnFragment.newInstance(info)
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragMain, "SignOn")
-                            .commitAllowingStateLoss()
-                    } else {
-                        fragMain = SignOnFragment.newInstance(info)
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragMain, "SignOn")
-                            .addToBackStack("SignOn")
-                            .commitAllowingStateLoss()
-                    }
+                if (fragment == null) {
+                    fragMain = SignOnFragment.newInstance(info)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, fragMain, "SignOn")
+                        .addToBackStack("SignOn")
+                        .commitAllowingStateLoss()
                 } else {
+                    fragment.setArguments(info)
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, fragment, "SignOn")
                         .commitAllowingStateLoss()
@@ -53,20 +47,14 @@ class MainActivity : AppCompatActivity(), Navigation {
 
             destiny.equals(RegistroFragment.toString()) -> {
                 val fragment = supportFragmentManager.findFragmentByTag("Registro")
-                if (fragment == null || info != null) {
-                    if (info != null) {
-                        fragRegistro = RegistroFragment.newInstance(info)
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragRegistro, "Registro")
-                            .commitAllowingStateLoss()
-                    } else {
+                if (fragment == null ) {
                         fragRegistro = RegistroFragment.newInstance(info)
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, fragRegistro, "Registro")
                             .addToBackStack("Registro")
                             .commitAllowingStateLoss()
-                    }
                 } else {
+                    fragment.setArguments(info)
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, fragment, "Registro")
                         .commitAllowingStateLoss()
@@ -76,20 +64,14 @@ class MainActivity : AppCompatActivity(), Navigation {
 
             destiny.equals(TermsFragment.toString()) -> {
                 val fragment = supportFragmentManager.findFragmentByTag("Terms")
-                if (fragment == null || info != null) {
-                    if (info != null) {
-                        fragTerms = TermsFragment.newInstance(info)
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragTerms, "Terms")
-                            .commitAllowingStateLoss()
-                    } else {
+                if (fragment == null) {
                         fragTerms = TermsFragment.newInstance(info)
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, fragTerms, "Terms")
                             .addToBackStack("Terms")
                             .commitAllowingStateLoss()
-                    }
                 } else {
+                    fragment.setArguments(info)
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, fragment, "Terms")
                         .commitAllowingStateLoss()
@@ -98,19 +80,13 @@ class MainActivity : AppCompatActivity(), Navigation {
 
             destiny.equals(InvalidCredentialsFragment.toString()) -> {
                 val fragment = supportFragmentManager.findFragmentByTag("InvalidCreds")
-                if (fragment == null || info != null) {
-                    if (info != null) {
-                        fragInCreds = InvalidCredentialsFragment.newInstance(info)
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.fragment_container, fragInCreds, "InvalidCreds")
-                            .commitAllowingStateLoss()
-                    } else {
+                if (fragment == null) {
                         fragInCreds = InvalidCredentialsFragment.newInstance(info)
                         supportFragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, fragInCreds, "InvalidCreds")
                             .addToBackStack("InvalidCreds").commitAllowingStateLoss()
-                    }
                 } else {
+                    fragment.setArguments(info)
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, fragment, "InvalidCreds")
                         .commitAllowingStateLoss()

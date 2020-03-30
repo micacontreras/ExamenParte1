@@ -12,6 +12,7 @@ import com.example.examenparte1.R
 import com.example.examenparte1.showDialog
 import com.example.examenparte1.singOn.SignOnFragment
 import kotlinx.android.synthetic.main.fragment_in_creds.*
+import kotlinx.android.synthetic.main.fragment_registro.*
 
 /**
  * A simple [Fragment] subclass.
@@ -46,10 +47,10 @@ class InvalidCredentialsFragment : Fragment() {
         showDialog(context, "Rimac seguros", "No recuerdo que mas decia", "Ok")
 
         bt_volver.setOnClickListener(View.OnClickListener {
-            if (arguments!!.getBundle("Datos") != null) {
+            if (arguments != null) {
                 callback?.navigateToFragment(
                     SignOnFragment.toString(),
-                    arguments!!.getBundle("Datos")
+                    arguments
                 )
             }
         })

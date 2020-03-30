@@ -2,6 +2,7 @@ package com.example.examenparte1.singOn
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,7 +51,7 @@ class SignOnFragment : Fragment() {
         })
         bt_abrirApp.setOnClickListener(View.OnClickListener {
             if (!et_docNro.text.isNullOrEmpty()) {
-                if (arguments!!.getBundle("Datos") != null) {
+                if (arguments?.getBundle("Datos") != null) {
                     if (!et_docNro.text.toString().equals(
                             arguments!!.getBundle("Datos")!!.getString(
                                 "DNI"
