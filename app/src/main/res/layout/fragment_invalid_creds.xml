@@ -5,12 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
-    tools:context=".invalidCredentials.InvalidCredentialsFragment">
-
+    tools:context=".invalidcreds.InvalidCredsFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +33,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <Button
-                android:id="@+id/bt_volver"
+                android:id="@+id/bt_back_to_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/signonFragment">
+
+    <fragment
+        android:id="@+id/registryFragment"
+        android:name="com.example.examenparte1.registry.RegistryFragment"
+        android:label="fragment_registry"
+        tools:layout="@layout/fragment_registry">
+        <action
+            android:id="@+id/navigateToTerms"
+            app:destination="@id/termsFragment"
+            app:launchSingleTop="true" />
+        <action
+            android:id="@+id/navigateToInvalidCredentials"
+            app:destination="@id/invalidCredsFragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/registryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signonFragment"
+        android:name="com.example.examenparte1.login.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/navigateToReg"
+            app:destination="@id/registryFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="DNI"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/navigateToInvalidCredentials"
+            app:destination="@id/invalidCredsFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/termsFragment"
+        android:name="com.example.examenparte1.terms.TermsFragment"
+        android:label="fragment_terms1"
+        tools:layout="@layout/fragment_terms1" />
+    <fragment
+        android:id="@+id/invalidCredsFragment"
+        android:name="com.example.examenparte1.invalidcreds.InvalidCredsFragment"
+        android:label="fragment_invalid_creds"
+        tools:layout="@layout/fragment_invalid_creds" >
+        <argument
+            android:name="DNI"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/navigateToSignon"
+            app:destination="@id/signonFragment"
+            app:popUpTo="@+id/signonFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>
