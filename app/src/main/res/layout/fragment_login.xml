@@ -90,7 +90,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="24dp"
                     android:hint="@string/n_de_documento"
-                    android:inputType="number"
+                    android:inputType="number|text"
                     android:textColor="#0C0A0A"
                     android:textColorHint="#0F0F0F"
                     android:textSize="16sp"
